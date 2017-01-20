@@ -397,7 +397,7 @@
       var countsName = options.counts_name || options.model.shortName;
 
       if (this.options.parent_instance && this.options.mapping) {
-        counts = GGRC.Utils.QueryAPI.getCounts();
+        counts = GGRC.Utils.CurrentPage.getCounts();
 
         if (self.element) {
           can.trigger(self.element, 'updateCount',
@@ -1278,13 +1278,14 @@
         .then(function (data) {
           var total = data.total;
           var countsName = this.options.counts_name || modelName;
+          var getCounts = GGRC.Utils.CurrentPage.getCounts;
           this.options.attr('paging.total', total);
           this.options.attr('paging.count',
             Math.ceil(data.total / this.options.paging.pageSize));
 
           if (!this.options.paging.filter &&
-            total !== queryAPI.getCounts().attr(countsName)) {
-            queryAPI.getCounts().attr(countsName, total);
+            total !== getCounts().attr(countsName)) {
+            getCounts().attr(countsName, total);
           }
           return data.values;
         }.bind(this));

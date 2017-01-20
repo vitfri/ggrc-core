@@ -644,7 +644,7 @@
     newWidgetDescriptors.history = historyWidgetDescriptor;
     newWidgetDescriptors.current = currentWidgetDescriptor;
 
-    GGRC.Utils.QueryAPI
+    GGRC.Utils.CurrentPage
       .initCounts([
         WorkflowExtension.countsMap.history,
         WorkflowExtension.countsMap.activeCycles,
