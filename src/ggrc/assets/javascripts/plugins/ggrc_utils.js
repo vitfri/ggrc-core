@@ -131,7 +131,7 @@
     getPickerElement: function (picker) {
       return _.find(_.values(picker), function (val) {
         if (val instanceof Node) {
-          return /picker\-dialog/.test(val.className);
+          return /picker-dialog/.test(val.className);
         }
         return false;
       });
@@ -506,49 +506,50 @@
       roles.unshift('none');
       return _.max(roles, Array.prototype.indexOf.bind(roleOrder));
     },
-    _display_tree_subpath: function display_subpath(el, path, attempt_counter) {
-    var rest = path.split('/');
-    var type = rest.shift();
-    var id = rest.shift();
-    var selector = '[data-object-type=\'' + type + '\'][data-object-id=' + id + ']';
-    var $node;
-    var node_controller;
-    var controller;
+    _display_tree_subpath: function displaySubpath(el, path, attemptCounter) {
+      var rest = path.split('/');
+      var type = rest.shift();
+      var id = rest.shift();
+      var selector = '[data-object-type=\'' + type +
+        '\'][data-object-id=' + id + ']';
+      var $node;
+      var nodeController;
+      var controller;
 
-    if (!attempt_counter) {
-      attempt_counter = 0;
-    }
-
-    rest = rest.join('/');
-
-    if (type || id) {
-      $node = el.find(selector);
-
-      // sometimes nodes haven't loaded yet, wait for them
-      if (!$node.size() && attempt_counter < 5) {
-        setTimeout(function () {
-          display_subpath(el, path, attempt_counter + 1);
-        }, 100);
-        return undefined;
+      if (!attemptCounter) {
+        attemptCounter = 0;
       }
 
-      if (!rest.length) {
-        controller = $node
-          .closest('.cms_controllers_tree_view_node')
-          .control();
+      rest = rest.join('/');
 
-        if (controller) {
-          controller.select();
+      if (type || id) {
+        $node = el.find(selector);
+
+        // sometimes nodes haven't loaded yet, wait for them
+        if (!$node.size() && attemptCounter < 5) {
+          setTimeout(function () {
+            displaySubpath(el, path, attemptCounter + 1);
+          }, 100);
+          return undefined;
         }
-      } else {
-        node_controller = $node.control();
-        if (node_controller && node_controller.display_path) {
-          return node_controller.display_path(rest);
+
+        if (!rest.length) {
+          controller = $node
+            .closest('.cms_controllers_tree_view_node')
+            .control();
+
+          if (controller) {
+            controller.select();
+          }
+        } else {
+          nodeController = $node.control();
+          if (nodeController && nodeController.display_path) {
+            return nodeController.display_path(rest);
+          }
         }
       }
+      return can.Deferred().resolve();
     }
-    return can.Deferred().resolve();
-  }
   };
 
   /**
