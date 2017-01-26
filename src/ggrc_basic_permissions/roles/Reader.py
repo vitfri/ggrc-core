@@ -17,6 +17,7 @@ description = """
 permissions = {
     "read": [
         "Audit",
+        "Snapshot",
         "Categorization",
         "Category",
         "ControlCategory",
@@ -64,7 +65,6 @@ permissions = {
         "ObjectOwner",
         "Person",
         "Program",
-        "Request",
         "Revision",
         "Role",
         "UserRole",

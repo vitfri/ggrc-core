@@ -76,10 +76,10 @@
           this.attr('isEdit', true);
         }.bind(this));   // and do nothing if no confirmation by the user
       },
-
       onCancel: function (scope) {
+        var value = scope.attr('_value');
         scope.attr('isEdit', false);
-        scope.attr('context.value', scope.attr('_value'));
+        scope.attr('context.value', value);
       },
       onSave: function () {
         var oldValue = this.attr('value');
@@ -94,6 +94,12 @@
 
         if (oldValue === value) {
           return;
+        } else if (this.attr('type') === 'person') {
+          if (value && oldValue && oldValue.id === value.id) {
+            // check instances of value and oldValue.
+            // return if instances are exist and ids are equal.
+            return;
+          }
         }
 
         this.attr('_value', value);

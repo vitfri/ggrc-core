@@ -426,6 +426,9 @@
           return _.isEmpty(value);
         }
       };
+      if (value === undefined) {
+        return true;
+      }
       if (types.indexOf(type) > -1 && options[type]) {
         result = options[type](value, cav);
       } else if (types.indexOf(type) > -1) {
@@ -873,7 +876,9 @@
      */
     function isSnapshotScope(parentInstance) {
       var instance = parentInstance || GGRC.page_instance();
-      return instance ? instance.is_snapshotable : false;
+      return instance ?
+        instance.is_snapshotable || isInScopeModel(instance.type) :
+        false;
     }
 
     /**
@@ -901,7 +906,8 @@
      * @return {Boolean} True or False
      */
     function isSnapshotRelated(parent, child) {
-      return isSnapshotParent(parent) && isSnapshotModel(child);
+      return isSnapshotParent(parent) && isSnapshotModel(child) ||
+        isInScopeModel(parent) && isSnapshotModel(child);
     }
 
     function isInScopeModel(model) {
@@ -927,20 +933,6 @@
       content.type = instance.child_type;
       content.id = instance.id;
       return new model(content);
-    }
-
-    /**
-     * Convert revision to object
-     * @param {Object} instance -  instance
-     * @return {Object} The object
-     */
-    function revisionToModel(instance) {
-      var content = instance.content;
-      content.isRevision = true;
-      content.class = {
-        is_custom_attributable: false
-      };
-      return content;
     }
 
     /**
@@ -984,7 +976,6 @@
       isInScopeModel: isInScopeModel,
       toObject: toObject,
       toObjects: toObjects,
-      revisionToModel: revisionToModel,
       transformQuery: transformQuery,
       setAttrs: setAttrs
     };

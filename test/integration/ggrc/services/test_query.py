@@ -11,10 +11,11 @@ from datetime import datetime
 from operator import itemgetter
 from flask import json
 
+from ggrc import app
 from ggrc import db
 from ggrc.models import CustomAttributeDefinition as CAD
 
-from integration.ggrc.converters import TestCase
+from integration.ggrc import TestCase
 from integration.ggrc.models import factories
 
 
@@ -194,6 +195,8 @@ class TestAdvancedQueryAPI(BaseQueryAPITestCase):
     )
     response = self._post(data)
     self.assert400(response)
+    self.assertEqual(response.json['message'],
+                     "Field 'effective date' expects a '%m/%d/%Y' date")
 
   def test_basic_query_text_search(self):
     """Filter by fulltext search."""
@@ -306,29 +309,44 @@ class TestAdvancedQueryAPI(BaseQueryAPITestCase):
     """Invalid limit parameters are handled properly."""
 
     # invalid "from"
-    self.assert400(self._post(
+    response = self._post(
         self._make_query_dict("Program", limit=["invalid", 12]),
-    ))
+    )
+    self.assert400(response)
+    self.assertEqual(response.json['message'],
+                     "Invalid limit operator. Integers expected.")
 
     # invalid "to"
-    self.assert400(self._post(
+    response = self._post(
         self._make_query_dict("Program", limit=[0, "invalid"]),
-    ))
+    )
+    self.assert400(response)
+    self.assertEqual(response.json['message'],
+                     "Invalid limit operator. Integers expected.")
 
     # "from" >= "to"
-    self.assert400(self._post(
+    response = self._post(
         self._make_query_dict("Program", limit=[12, 0]),
-    ))
+    )
+    self.assert400(response)
+    self.assertEqual(response.json['message'],
+                     "Limit start should be smaller than end.")
 
     # negative "from"
-    self.assert400(self._post(
+    response = self._post(
         self._make_query_dict("Program", limit=[-2, 10]),
-    ))
+    )
+    self.assert400(response)
+    self.assertEqual(response.json['message'],
+                     "Limit cannot contain negative numbers.")
 
     # negative "to"
-    self.assert400(self._post(
+    response = self._post(
         self._make_query_dict("Program", limit=[2, -10]),
-    ))
+    )
+    self.assert400(response)
+    self.assertEqual(response.json['message'],
+                     "Limit cannot contain negative numbers.")
 
   def test_query_order_by(self):
     """Results get sorted by own field."""
@@ -729,6 +747,8 @@ class TestQueryWithCA(BaseQueryAPITestCase):
     )
     response = self._post(data)
     self.assert400(response)
+    self.assertEqual(response.json['message'],
+                     "Field 'ca date' expects a '%m/%d/%Y' date")
 
   def test_ca_query_different_types_local_ca(self):
     """Filter by local CAs with same title and different types."""
@@ -784,25 +804,29 @@ class TestQueryWithCA(BaseQueryAPITestCase):
 class TestQueryWithUnicode(BaseQueryAPITestCase):
   """Test query API with unicode values."""
 
-  def setUp(self):
+  CAD_TITLE1 = u"CA список" + "X" * 200
+  CAD_TITLE2 = u"CA текст" + "X" * 200
+
+  @classmethod
+  def setUpClass(self):
     """Set up test cases for all tests."""
     TestCase.clear_data()
     self._generate_cad()
     self._import_file("querying_with_unicode.csv")
-    self.client.get("/login")
 
-  @staticmethod
-  def _generate_cad():
+  @classmethod
+  def _generate_cad(cls):
     """Generate custom attribute definitions."""
-    factories.CustomAttributeDefinitionFactory(
-        title=u"CA список",
-        definition_type="program",
-        multi_choice_options=u"один,два,три,четыре,пять",
-    )
-    factories.CustomAttributeDefinitionFactory(
-        title=u"CA текст",
-        definition_type="program",
-    )
+    with app.app.app_context():
+      factories.CustomAttributeDefinitionFactory(
+          title=cls.CAD_TITLE1,
+          definition_type="program",
+          multi_choice_options=u"один,два,три,четыре,пять",
+      )
+      factories.CustomAttributeDefinitionFactory(
+          title=cls.CAD_TITLE2,
+          definition_type="program",
+      )
 
   @staticmethod
   def _flatten_cav(data):
@@ -812,6 +836,9 @@ class TestQueryWithUnicode(BaseQueryAPITestCase):
       for cav in entry.get("custom_attribute_values", []):
         entry[cad_names[cav["custom_attribute_id"]]] = cav["attribute_value"]
     return data
+
+  def setUp(self):
+    self.client.get("/login")
 
   def test_query(self):
     """Test query by unicode value."""
@@ -830,11 +857,12 @@ class TestQueryWithUnicode(BaseQueryAPITestCase):
     programs = self._flatten_cav(
         self._get_first_result_set(
             self._make_query_dict("Program",
-                                  order_by=[{"name": u"CA текст"},
-                                            {"name": u"CA список"}]),
+                                  order_by=[{"name": self.CAD_TITLE2},
+                                            {"name": self.CAD_TITLE1}]),
             "Program", "values",
         )
     )
 
-    keys = [(prog[u"CA текст"], prog[u"CA список"]) for prog in programs]
+    keys = [(prog[self.CAD_TITLE2], prog[self.CAD_TITLE1])
+            for prog in programs]
     self.assertEqual(keys, sorted(keys))

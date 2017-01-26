@@ -6,9 +6,8 @@
 import json
 
 from ggrc import db
-import ggrc.models as models
+from ggrc import models
 from ggrc.snapshotter.rules import Types
-
 
 import integration.ggrc
 import integration.ggrc.generator
@@ -364,9 +363,15 @@ class TestWithSimilarityScore(integration.ggrc.TestCase):
           headers={"Content-Type": "application/json"},
       )
 
+      # our sorted results are only unstably sorted. As such we verify that
+      # weights match and not actual object ids
+      obj_weight = {so.id: so.weight for so in similar_objects}
+      response_ids = json.loads(response.data)[0]["Assessment"]["ids"]
+      response_weights = [obj_weight[rid] for rid in response_ids]
+
       self.assertListEqual(
-          json.loads(response.data)[0]["Assessment"]["ids"],
-          [obj.id for obj in sorted_similar]
+          response_weights,
+          [obj.weight for obj in sorted_similar],
       )
 
   def test_empty_similar_results(self):
@@ -403,11 +408,15 @@ class TestWithSimilarityScore(integration.ggrc.TestCase):
         "filters": {"expression": {}},
     }]
 
-    self.assert400(self.client.post(
+    response = self.client.post(
         "/query",
         data=json.dumps(query),
         headers={"Content-Type": "application/json"},
-    ))
+    )
+    self.assert400(response)
+    self.assertEqual(response.json["message"],
+                     "Can't order by '__similarity__' when no 'similar' "
+                     "filter was applied.")
 
     # filter by similarity in one query and order by similarity in another
     query = [
@@ -428,8 +437,9 @@ class TestWithSimilarityScore(integration.ggrc.TestCase):
         },
     ]
 
-    self.assert400(self.client.post(
+    response = self.client.post(
         "/query",
         data=json.dumps(query),
         headers={"Content-Type": "application/json"},
-    ))
+    )
+    self.assert400(response)

@@ -8,6 +8,7 @@ description = """
 permissions = {
     "read": [
         "Audit",
+        "Snapshot",
         "Categorization",
         "Category",
         "Comment",
@@ -50,7 +51,6 @@ permissions = {
         "Program",
         "Revision",
         "Role",
-        "Request",
         "Context",
         "UserRole",
         {
@@ -64,6 +64,7 @@ permissions = {
     ],
     "create": [
         "Audit",
+        "Snapshot",
         "Workflow",
         "Categorization",
         "Category",
@@ -106,7 +107,6 @@ permissions = {
         "Program",
         "Role",
         "UserRole",
-        "Request",
         "Context",
         {
             "type": "BackgroundTask",
@@ -122,6 +122,7 @@ permissions = {
     ],
     "update": [
         "Audit",
+        "Snapshot",
         "Workflow",
         "Categorization",
         "Category",
@@ -164,7 +165,6 @@ permissions = {
         "Program",
         "Role",
         "UserRole",
-        "Request",
         "Context",
         {
             "type": "BackgroundTask",
@@ -218,7 +218,6 @@ permissions = {
         "Program",
         "Role",
         "UserRole",
-        "Request",
         "Context",
         {
             "type": "BackgroundTask",
