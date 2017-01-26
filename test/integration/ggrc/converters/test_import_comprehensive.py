@@ -254,6 +254,47 @@ class TestComprehensiveSheets(TestCase):
 
     self._check_csv_response(response, expected_errors)
 
+  def test_multi_choice_fields(self):
+    """Test Multi-choice fields options
+
+     This test should test for warnings and errors when multi-choice options
+     are not present in CSV
+     """
+
+    response = self.import_file("import_controls_invalid_values.csv")
+    expected_errors = {
+        "Control": {
+            "row_warnings": set([
+                errors.WRONG_VALUE.format(
+                    line=5, column_name="Frequency"),
+                errors.WRONG_VALUE.format(
+                    line=5, column_name="Kind/Nature"),
+                errors.WRONG_VALUE.format(
+                    line=5, column_name="Type/Means")
+            ])
+        }
+    }
+
+    self._check_csv_response(response, expected_errors)
+
+  def test_directive_kind_fields(self):
+    """Test Multi-choice fields for directives
+
+     This test should test for warnings and errors when multi-choice
+     directives are not present in CSV
+     """
+
+    response = self.import_file("import_invalid_directive_values.csv")
+    expected_errors = {
+        "Policy": {
+            "row_warnings": set([
+                errors.WRONG_VALUE.format(
+                    line=7, column_name="Kind/Type")
+            ])
+        }
+    }
+    self._check_csv_response(response, expected_errors)
+
   def create_custom_attributes(self):
     """Generate custom attributes needed for comprehensive sheet."""
     gen = self.generator.generate_custom_attribute

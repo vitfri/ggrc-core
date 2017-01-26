@@ -2,28 +2,27 @@ Object type,"Must be unique.  Can be left empty for autogeneration.  If updating
 yearly
 monthly
 daily","options:
-reactive
-preventive
+corrective
 detective
-administrative
+preventative
 ",,required cutom attribute. contain text,,,,,
 control,code*,title*,description ,frequency,kind/nature,owner,my custom text*,non-existent-attribute,,,,
-,control-1,control-1,desc 1b,daily,administrative,user1@ggrc.com,1,,,,,
+,control-1,control-1,desc 1b,daily,preventative,user1@ggrc.com,1,,,,,
 ,control-2,control-2,desc 2,monthly,detective,user1@ggrc.com,2,,,,,
 ,control-3,control 3,desc 3,,,user1@ggrc.com,3,,,,,
-,control-4,control-4,desc 4,yearly,reactive,someone.else@ggrc.com,4,,,,,
-,control-5,control-5,desc 4,daily,reactive,user1@ggrc.com,6,,,,,
-,control-6,control-6,desc 1b,daily,administrative,someone.else@ggrc.com,1,,,,,
+,control-4,control-4,desc 4,yearly,preventative,someone.else@ggrc.com,4,,,,,
+,control-5,control-5,desc 4,daily,detective,user1@ggrc.com,6,,,,,
+,control-6,control-6,desc 1b,daily,preventative,someone.else@ggrc.com,1,,,,,
 ,control-7,control-7,desc 2,monthly,detective,user1@ggrc.com,4,,,,,
 ,control-8,control 8,desc 3,,,someone.else@ggrc.com,5,,,,,
-,control-9,control-9,desc 4,yearly,reactive,user1@ggrc.com,6,,,,,
-,control-10,control-10,desc 4,daily,reactive,user1@ggrc.com,66,,,,,
+,control-9,control-9,desc 4,yearly,corrective,user1@ggrc.com,6,,,,,
+,control-10,control-10,desc 4,daily,corrective,user1@ggrc.com,66,,,,,
 ,control-no-owner,control-no-owner,desc 2,monthly,detective,,3,,,,,
-,control-invalid-owner,control-invalid-owner,desc 3,yearly,administrative,nonexist@nonexist.com,6,,,,,
-,control-invalid-attribute,control-invalid-attribute,desc 4,daily,non-existent,user1@ggrc.com,6,,,,,
-,ctrl-dup-title,control-1,desc 1b,daily,administrative,user1@ggrc.com,6,,,,,
-,ctrl-req-attr-missing,,desc 1b,daily,administrative,user1@ggrc.com,45,,,,,
-,ctrl-req-custom-attr-missing,ctrl-req-custom-attr-missing,desc 1b,daily,administrative,user1@ggrc.com,4,,,,,
+,control-invalid-owner,control-invalid-owner,desc 3,yearly,preventative,nonexist@nonexist.com,6,,,,,
+,control-invalid-attribute,control-invalid-attribute,desc 4,daily,detective,user1@ggrc.com,6,,,,,
+,ctrl-dup-title,control-1,desc 1b,daily,preventative,user1@ggrc.com,6,,,,,
+,ctrl-req-attr-missing,,desc 1b,daily,preventative,user1@ggrc.com,45,,,,,
+,ctrl-req-custom-attr-missing,ctrl-req-custom-attr-missing,desc 1b,daily,preventative,user1@ggrc.com,4,,,,,
 ,,,,,,,,,,,,
 ,,,,,,,,,,,,
 ,,,,,,,,,,,,
@@ -403,5 +402,3 @@ Person,name,email,company,non-existent-attribute,role,,,,,,,
 ,Miha,miha@policy.com,,gGRC Admin,,,,,,,,
 ,Someone.Else,someone.else@ggrc.com,,gGRC Admin,,,,,,,,
 ,Another,another@user.com,,gGRC Admin,,,,,,,,
-,,,,,,,,,,,,
-,,,,,,,,,,,,
