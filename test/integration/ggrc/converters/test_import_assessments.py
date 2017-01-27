@@ -22,7 +22,7 @@ class TestAssessmentImport(TestCase):
 
   def setUp(self):
     """Set up for Assessment test cases."""
-    TestCase.setUp(self)
+    super(TestAssessmentImport, self).setUp()
     self.client.get("/login")
 
   def test_import_assessments_with_templates(self):
@@ -206,11 +206,11 @@ class TestAssessmentExport(TestCase):
 
   def setUp(self):
     """ Set up for Assessment test cases """
-    TestCase.setUp(self)
+    super(TestAssessmentExport, self).setUp()
     self.client.get("/login")
     self.headers = {
         'Content-Type': 'application/json',
-        "X-Requested-By": "gGRC",
+        "X-Requested-By": "GGRC",
         "X-export-view": "blocks",
     }
 

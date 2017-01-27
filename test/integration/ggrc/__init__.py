@@ -35,7 +35,7 @@ class SetEncoder(json.JSONEncoder):
     return super(SetEncoder, self).default(obj)
 
 
-class TestCase(BaseTestCase):
+class TestCase(BaseTestCase, object):
   # because it's required by unittests.
 
   """Base test case for all ggrc integration tests."""
@@ -153,7 +153,7 @@ class TestCase(BaseTestCase):
     data = {"file": (open(join(cls.CSV_DIR, filename)), filename)}
     headers = {
         "X-test-only": "true" if dry_run else "false",
-        "X-requested-by": "gGRC",
+        "X-requested-by": "GGRC",
     }
     api = Api()
     api.set_user(person)  # Ok if person is None
@@ -173,7 +173,7 @@ class TestCase(BaseTestCase):
   def export_csv(self, data):
     headers = {
         'Content-Type': 'application/json',
-        "X-requested-by": "gGRC",
+        "X-requested-by": "GGRC",
         "X-export-view": "blocks",
     }
     return self.client.post("/_service/export_csv", data=json.dumps(data),
