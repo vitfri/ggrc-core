@@ -35,6 +35,7 @@ GGRC_COLUMN_HANDLERS = {
     "fraud_related": boolean.CheckboxColumnHandler,
     "is_enabled": boolean.CheckboxColumnHandler,
     "key_control": boolean.KeyControlColumnHandler,
+    "directive_kind": handlers.DirectiveKindColumnHandler,
     "kind": handlers.OptionColumnHandler,
     "link": handlers.TextColumnHandler,
     "means": handlers.OptionColumnHandler,

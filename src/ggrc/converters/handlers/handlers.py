@@ -196,6 +196,24 @@ class StatusColumnHandler(ColumnHandler):
     return status
 
 
+class DirectiveKindColumnHandler(ColumnHandler):
+  """
+    Handler for handling imports of Directive Kind/Type
+  """
+  def __init__(self, row_converter, key, **options):
+    self.key = "kind"
+    self.valid_states = row_converter.object_class.VALID_KINDS
+    self.state_mappings = set([str(s).lower() for s in self.valid_states])
+    super(DirectiveKindColumnHandler, self).__init__(row_converter,
+                                                     key, **options)
+
+  def parse_item(self):
+    value = self.raw_value.lower()
+    if value not in self.state_mappings:
+      self.add_warning(errors.WRONG_VALUE, column_name=self.display_name)
+    return value
+
+
 class UserColumnHandler(ColumnHandler):
   """ Handler for primary and secondary contacts """
 
@@ -483,12 +501,19 @@ class OptionColumnHandler(ColumnHandler):
     if not self.mandatory and self.raw_value in {"--", "---"}:
       self.set_empty = True
       return None
-    prefixed_key = "{}_{}".format(
-        self.row_converter.object_class._inflector.table_singular, self.key)
+    if not self.raw_value:
+      return None
+    table_singular = self.row_converter.object_class._inflector.table_singular
+    prefixed_key = "{}_{}".format(table_singular, "type")\
+        if table_singular == "product" \
+        else "{}_{}".format(table_singular, self.key)
     item = Option.query.filter(
         and_(Option.title == self.raw_value.strip(),
              or_(Option.role == self.key,
                  Option.role == prefixed_key))).first()
+
+    if not item:
+      self.add_warning(errors.WRONG_VALUE, column_name=self.display_name)
     return item
 
   def get_value(self):

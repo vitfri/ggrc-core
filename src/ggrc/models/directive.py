@@ -68,7 +68,7 @@ class Directive(HasObjectState, Timeboxed, BusinessObject, db.Model):
 
   _include_links = []
 
-  _aliases = {'kind': "Kind/Type", }
+  _aliases = {'directive_kind': "Kind/Type", }
 
   @validates('kind')
   def validate_kind(self, key, value):
@@ -134,7 +134,7 @@ class Regulation(CustomAttributable, Relatable,
 
   _aliases = {
       "url": "Regulation URL",
-      "kind": None,
+      "directive_kind": None,
   }
 
   @validates('meta_kind')
@@ -154,7 +154,7 @@ class Standard(CustomAttributable, Relatable,
 
   _aliases = {
       "url": "Standard URL",
-      "kind": None,
+      "directive_kind": None,
   }
 
   @validates('meta_kind')
@@ -174,7 +174,7 @@ class Contract(CustomAttributable, Relatable,
 
   _aliases = {
       "url": "Contract URL",
-      "kind": None,
+      "directive_kind": None,
   }
 
   @validates('meta_kind')
