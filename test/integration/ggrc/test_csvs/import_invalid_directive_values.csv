@@ -16,12 +16,12 @@ Contract-Related Policy
 Company Controls Policy"
 Policy,code*,title*,description,owner,state,notes,primary contact,secondary contact,effective date,stop date,policy url,reference url,Kind/Type
 ,p1,policy 1,test,user@example.com,Draft,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Company Policy
-,p2,policy 2,test,user@example.com,Final,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Org Group Policy
-,p3,policy 3,test,user@example.com,Effective,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Data Asset Policy
-,p4,policy 4,test,user@example.com,Ineffective,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Product Policy
-,p5,policy 5,test,user@example.com,Launched,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,invalid policy
-,p6,policy 6,test,user@example.com,Not Launched,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Company Controls Policy
-,p7,policy 7,test,user@example.com,In Scope,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Company Policy
-,p8,policy 8,test,user@example.com,Not in Scope,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Org Group Policy
+,p2,policy 2,test,user@example.com,Active,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Org Group Policy
+,p3,policy 3,test,user@example.com,Active,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Data Asset Policy
+,p4,policy 4,test,user@example.com,Active,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Product Policy
+,p5,policy 5,test,user@example.com,Active,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,invalid policy
+,p6,policy 6,test,user@example.com,Draft,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Company Controls Policy
+,p7,policy 7,test,user@example.com,Active,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Company Policy
+,p8,policy 8,test,user@example.com,Active,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Org Group Policy
 ,p9,policy 9,test,user@example.com,Deprecated,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Data Asset Policy
 ,p10,policy 10,test,user@example.com,Draft,this is a note,user@example.com,,7/1/2015,7/15/2015,google.com,ggrc.com,Product Policy
