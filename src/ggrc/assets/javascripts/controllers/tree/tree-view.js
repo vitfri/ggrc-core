@@ -1353,7 +1353,7 @@
             queryAPI.getCounts().attr(countsName, total);
           }
           if (isStateQuery) {
-            GGRC.Utils.QueryAPI
+            GGRC.Utils.CurrentPage
               .initCounts([modelName], {
                 type: options.parent_instance.type,
                 id: options.parent_instance.id
