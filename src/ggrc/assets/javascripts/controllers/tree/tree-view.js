@@ -1349,8 +1349,8 @@
             Math.ceil(data.total / this.options.paging.pageSize));
 
           if (!this.options.paging.filter && !isStateQuery &&
-            total !== queryAPI.getCounts().attr(countsName)) {
-            queryAPI.getCounts().attr(countsName, total);
+            total !== getCounts().attr(countsName)) {
+            getCounts().attr(countsName, total);
           }
           if (isStateQuery) {
             GGRC.Utils.CurrentPage
