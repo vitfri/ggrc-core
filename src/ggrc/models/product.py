@@ -23,7 +23,7 @@ class Product(HasObjectState, CustomAttributable, Personable,
   kind = db.relationship(
       'Option',
       primaryjoin='and_(foreign(Product.kind_id) == Option.id, '
-      'Option.role == "product_type")',
+      'Option.role == "product_kind")',
       uselist=False,
   )
 
@@ -43,7 +43,7 @@ class Product(HasObjectState, CustomAttributable, Personable,
   @validates('kind')
   def validate_product_options(self, key, option):
     return validate_option(
-        self.__class__.__name__, key, option, 'product_type')
+        self.__class__.__name__, key, option, 'product_kind')
 
   @classmethod
   def _filter_by_kind(cls, predicate):
