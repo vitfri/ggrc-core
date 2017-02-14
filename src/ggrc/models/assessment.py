@@ -192,7 +192,7 @@ class Assessment(statusable.Statusable, AuditRelationship,
   }
 
   def validate_conclusion(self, value):
-    return value if value in self.VALID_CONCLUSIONS else ""
+    return value if value in self.VALID_CONCLUSIONS else None
 
   @validates("operationally")
   def validate_opperationally(self, key, value):
