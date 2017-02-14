@@ -16,7 +16,8 @@
       instance: null,
       childOptions: null,
       drawRoles: false,
-      drawStates: false
+      drawStates: false,
+      drawRelatedAssessment: false
     }
   });
 })(window.can, window.GGRC);
