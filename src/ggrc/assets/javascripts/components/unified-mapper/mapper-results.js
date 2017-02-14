@@ -332,7 +332,7 @@
           });
         return dfd;
       },
-      setItemsDebounced() {
+      setItemsDebounced: function () {
         clearTimeout(this.attr('_setItemsTimeout'));
         this.attr('_setItemsTimeout', setTimeout(this.setItems.bind(this)));
       },
