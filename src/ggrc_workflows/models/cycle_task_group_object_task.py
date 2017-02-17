@@ -34,8 +34,11 @@ class CycleTaskGroupObjectTask(
 
   _title_uniqueness = False
 
-  IMPORTABLE_FIELDS = ('slug', 'title', 'description', 'start_date',
-                       'end_date', 'finished_date', 'verified_date')
+  IMPORTABLE_FIELDS = (
+      'slug', 'title', 'description', 'start_date',
+      'end_date', 'finished_date', 'verified_date',
+      'contact',
+  )
 
   @classmethod
   def generate_slug_prefix_for(cls, obj):
