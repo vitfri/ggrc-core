@@ -517,9 +517,7 @@ class OptionColumnHandler(ColumnHandler):
     if not self.raw_value:
       return None
     table_singular = self.row_converter.object_class._inflector.table_singular
-    prefixed_key = "{}_{}".format(table_singular, "type")\
-        if table_singular == "product" \
-        else "{}_{}".format(table_singular, self.key)
+    prefixed_key = "{}_{}".format(table_singular, self.key)
     item = Option.query.filter(
         and_(Option.title == self.raw_value.strip(),
              or_(Option.role == self.key,
