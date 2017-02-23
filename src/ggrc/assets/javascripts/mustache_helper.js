@@ -1651,14 +1651,20 @@ Mustache.registerHelper("with_program_roles_as", function (
    *
    * @param {can.Model} instance - the object to infer the current user's
    *   roles for
+   * @param {Boolean} skip - used to skip the inser_roles calls in subtrees
    * @param {Object} options - a CanJS options argument passed to every helper
    */
-  Mustache.registerHelper('infer_roles', function (instance, options) {
+  Mustache.registerHelper('infer_roles', function (instance, skip, options) {
     var pageInstance;
     var person;
     var refreshQueue;
     var requests;
     var state;
+    skip = Mustache.resolve(skip);
+
+    if (skip) {
+      return;
+    }
 
     function initState() {
       if (!state.roles) {

@@ -42,7 +42,7 @@
                   <view-object-buttons instance="instance" open-is-hidden="is_subtree" />
                 </div>
                 <ul class="tree-action-list">
-                  {{#infer_roles instance}}
+                  {{#infer_roles instance is_subtree}}
                     <li>
                       <i class="fa fa-person" rel="tooltip" data-placement="left" data-original-title="{{.}} "></i>
                     </li>
