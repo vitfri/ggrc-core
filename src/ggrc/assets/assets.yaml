@@ -15,7 +15,6 @@ dashboard-js-files:
   - bootstrap/js/bootstrap-tooltip.js
   - bootstrap/js/bootstrap-popover.js
   - clipboard/dist/clipboard.min.js
-  - stickyfill/stickyfill.js
   - mousetrap/mousetrap.min.js
   - quill/dist/quill.min.js
   - canjs/can.jquery.js
@@ -212,7 +211,6 @@ dashboard-js-files:
   - components/unified-mapper/mapper.js
   - components/unified-mapper/mapper-toolbar.js
   - components/unified-mapper/mapper-filter.js
-  - components/unified-mapper/mapper-status-filter.js
   - components/unified-mapper/mapper-results.js
   - components/unified-mapper/mapper-results-item.js
   - components/unified-mapper/mapper-results-item-status.js
@@ -333,7 +331,6 @@ dashboard-js-template-files:
   - base_objects/tree_column_selector.mustache
   - base_objects/tree_column_names.mustache
   - base_objects/sub_tree_expand.mustache
-  - base_objects/filter_trigger.mustache
   - base_objects/generate_assessments_button.mustache
   - base_objects/states.mustache
   - base_objects/form_restore.mustache
@@ -412,7 +409,6 @@ dashboard-js-template-files:
   - components/autocomplete/autocomplete.mustache
   - components/unified-mapper/mapper-toolbar.mustache
   - components/unified-mapper/mapper-filter.mustache
-  - components/unified-mapper/mapper-status-filter.mustache
   - components/unified-mapper/mapper-results.mustache
   - components/unified-mapper/mapper-results-item.mustache
   - components/unified-mapper/mapper-results-item-status.mustache
