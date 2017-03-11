@@ -211,7 +211,9 @@ class DirectiveKindColumnHandler(ColumnHandler):
 
   def parse_item(self):
     value = self.raw_value.lower()
-    if value not in self.state_mappings:
+    if not value and self.mandatory:
+      self.add_error(errors.MISSING_VALUE_ERROR, column_name=self.display_name)
+    elif value and value not in self.state_mappings:
       self.add_warning(errors.WRONG_VALUE, column_name=self.display_name)
     return value
 
