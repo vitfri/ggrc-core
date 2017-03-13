@@ -147,6 +147,10 @@
       return pageType === 'ADMIN';
     }
 
+    function isObjectContextPage() {
+      return !pageType;
+    }
+
     return {
       activeTabObject: activeTabObject,
       related: relatedToCurrentInstance,
@@ -156,7 +160,8 @@
       initMappedInstances: initMappedInstances,
       isMyAssessments: isMyAssessments,
       isMyWork: isMyWork,
-      isAdmin: isAdmin
+      isAdmin: isAdmin,
+      isObjectContextPage: isObjectContextPage
     };
   })();
 })(window.GGRC);

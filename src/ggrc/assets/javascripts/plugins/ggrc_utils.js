@@ -821,7 +821,7 @@
           (Model.tree_view_options.display_attr_names ||
           Cacheable.tree_view_options.display_attr_names);
       var disableConfiguration =
-        !!Model.tree_view_options.disable_columns_configuration
+        !!Model.tree_view_options.disable_columns_configuration;
       var mandatoryColumns;
       var displayColumns;
 
@@ -845,7 +845,8 @@
           return a.order - b.order;
         });
 
-      var customAttrs =
+      var customAttrs = disableConfiguration ?
+        [] :
         GGRC.custom_attr_defs
           .filter(function (def) {
             return def.definition_type === modelDefinition &&

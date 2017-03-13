@@ -105,6 +105,11 @@ class Assessment(statusable.Statusable, AuditRelationship,
       PublishOnly('object')
   ]
 
+  _fulltext_attrs = [
+      'design',
+      'operationally',
+  ]
+
   _tracked_attrs = {
       'contact_id',
       'description',
