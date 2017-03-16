@@ -25,7 +25,6 @@
      * @property {object} filters - Filter properties
      */
 
-    var widgetsCounts = new can.Map({});
     var BATCH_TIMEOUT = 100;
     var batchQueue = [];
     var batchTimeout = null;
@@ -154,51 +153,6 @@
     }
 
     /**
-     * Counts for related objects.
-     *
-     * @return {can.Map} Promise which return total count of objects.
-     */
-    function getCounts() {
-      return widgetsCounts;
-    }
-
-    function initCounts(widgets, relevant) {
-      var params = can.makeArray(widgets)
-        .map(function (widget) {
-          var param;
-          if (GGRC.Utils.Snapshots.isSnapshotRelated(relevant.type, widget)) {
-            param = buildParam('Snapshot', {},
-              makeExpression(widget, relevant.type, relevant.id), null,
-              GGRC.query_parser.parse('child_type = ' + widget));
-          } else if (typeof widget === 'string') {
-            param = buildParam(widget, {},
-              makeExpression(widget, relevant.type, relevant.id));
-          } else {
-            param = buildParam(widget.name, {},
-              makeExpression(widget.name, relevant.type, relevant.id),
-              null, widget.additionalFilter);
-          }
-          param.type = 'count';
-          return param;
-        });
-
-      return makeRequest({
-        data: params
-      }).then(function (data) {
-        data.forEach(function (info, i) {
-          var widget = widgets[i];
-          var name = typeof widget === 'string' ? widget : widget.name;
-          var countsName = typeof widget === 'string' ?
-            widget : (widget.countsName || widget.name);
-          if (GGRC.Utils.Snapshots.isSnapshotRelated(relevant.type, name)) {
-            name = 'Snapshot';
-          }
-          widgetsCounts.attr(countsName, info[name].total);
-        });
-      });
-    }
-
-    /**
      * Params for request on Query API
      * @param {Object} params - Params for request
      * @param {Object} params.headers - Custom headers for request.
@@ -312,9 +266,7 @@
       buildParams: buildParams,
       buildRelevantIdsQuery: buildRelevantIdsQuery,
       makeRequest: makeRequest,
-      getCounts: getCounts,
       makeExpression: makeExpression,
-      initCounts: initCounts,
       batchRequests: batchRequests
     };
   })();
