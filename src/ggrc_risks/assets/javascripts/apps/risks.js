@@ -332,4 +332,4 @@
     GGRC.mustache_path + '/dashboard/lhn_risks.mustache');
 
   RisksExtension.init_mappings();
-})(this.can.$, this.CMS, this.GGRC);
+})(window.can.$, window.CMS, window.GGRC);
