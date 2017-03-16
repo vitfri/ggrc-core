@@ -5,9 +5,6 @@
 
 (function (can, $) {
   'use strict';
-  var WARNING_MESSAGE = 'Selected objects will be mapped ' +
-    'to the corresponding Program, ' +
-    'and system will create snapshots of selected objects for this Audit';
 
   var DEFAULT_OBJECT_MAP = {
     Assessment: 'Control',
@@ -57,7 +54,6 @@
       }
     },
     type: 'Control', // We set default as Control
-    warningMessage: WARNING_MESSAGE,
     contact: null,
     contactEmail: null,
     deferred: '@',
@@ -82,9 +78,9 @@
     relevant: [],
     submitCbs: $.Callbacks(),
     afterSearch: false,
-    init: function () {
+    afterShown: function () {
       if (!this.attr('search_only')) {
-        setTimeout(this.onToolbarSubmit.bind(this));
+        this.onToolbarSubmit();
       }
     },
     allowedToCreate: function () {
@@ -273,11 +269,16 @@
         }
       },
       inserted: function () {
+        var self = this;
         this.scope.attr('mapper.selected').replace([]);
         this.scope.attr('mapper.entries').replace([]);
 
         this.setModel();
         this.setBinding();
+
+        setTimeout(function () {
+          self.scope.attr('mapper').afterShown();
+        });
       },
       '.add-button modal:success': function (el, ev, model) {
         // clear
