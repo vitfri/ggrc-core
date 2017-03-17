@@ -116,8 +116,8 @@ def _get_declined_people(obj):
     the given object type.
   """
   if obj.type == "Assessment":
-    return [person for person, role in obj.assignees
-            if "Assessor" in role]
+    return [person for person, _ in obj.assignees]
+
   return []
 
 
