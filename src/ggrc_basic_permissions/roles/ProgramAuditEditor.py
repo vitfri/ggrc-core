@@ -10,6 +10,7 @@ permissions = {
     "read": [
         "Comment",
         "Assessment",
+        "AssessmentTemplate",
         "Issue",
         "Audit",
         "Snapshot",
@@ -44,6 +45,7 @@ permissions = {
     ],
     "update": [
         "Assessment",
+        "AssessmentTemplate",
         "Issue",
         "Snapshot",
         "Audit",
@@ -57,6 +59,7 @@ permissions = {
         "Meeting"
     ],
     "delete": [
+        "AssessmentTemplate",
         "ObjectControl",
         "ObjectDocument",
         "ObjectPerson",

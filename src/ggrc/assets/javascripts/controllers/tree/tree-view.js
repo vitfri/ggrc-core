@@ -366,6 +366,20 @@
       this._attached_deferred.resolve();
     },
 
+    initNoResultsMessage: function () {
+      var self = this;
+      var context = new can.Map({
+        text: 'No results, please check your filter criteria'
+      });
+      var html = can.mustache('<tree-no-results/>')(context);
+
+      this.options.bind('paging.total', function () {
+        context.attr('show', !self.options.attr('paging.total'));
+      });
+
+      this.element.after(html);
+    },
+
     init_view: function () {
       var self = this;
       var dfds = [];
@@ -381,7 +395,7 @@
           can.view(this.options.header_view, optionsDfd).then(
             this._ifNotRemoved(function (frag) {
               this.element.before(frag);
-
+              this.initNoResultsMessage();
               can.bind.call(this.element.parent()
                   .find('.widget-col-title[data-field]'),
                 'click',
@@ -850,7 +864,6 @@
       var treeFilter;
       var filterHeight;
       var headerHeight;
-      var elementMarginTop;
       var parentWidth;
       var headerContentHeight;
       var treeHeaderContent;
@@ -870,12 +883,11 @@
       filterHeight = Number(treeFilter.attr('data-height')) +
         Number(treeFilter.attr('data-margin-bottom'));
       headerHeight = elementParent.find('.tree-header').height();
-      elementMarginTop = elementParent.offset().top;
       parentWidth = elementParent.width();
       headerContentHeight = filterHeight + headerHeight;
       treeHeaderContent = elementParent.find('.tree-header-content');
 
-      this.element.css('margin-top', elementMarginTop);
+      this.element.css('margin-top', headerContentHeight);
 
       if (treeHeaderContent) {
         treeHeaderContent.css('width', parentWidth);
@@ -1157,7 +1169,10 @@
     saveTreeStates: function (selectedStates) {
       var stateToSave = [];
 
-      selectedStates = selectedStates || [];
+      // in this case we save previous states
+      if (!selectedStates) {
+        return;
+      }
 
       selectedStates.forEach(function (state) {
         // wrap in quotes
@@ -1282,13 +1297,14 @@
     loadSubTree: function () {
       var parent = this.options.parent_instance;
       var queryAPI = GGRC.Utils.QueryAPI;
+      var snapshots = GGRC.Utils.Snapshots;
       var parentCtrl = this.element.closest('section')
         .find('.cms_controllers_tree_view').control();
       var originalOrder =
         can.makeArray(GGRC.tree_view.attr('orderedWidgetsByType')[parent.type]);
       var relevant = {
         type: parent.type,
-        id: parent.id,
+        id: snapshots.isSnapshot(parent) ? parent.snapshot.child_id : parent.id,
         operation: 'relevant'
       };
       var states = parentCtrl.options.attr('selectStateList');
@@ -1302,10 +1318,15 @@
           filter = statesQuery;
         }
         return queryAPI.buildParam(model, {}, relevant, [
+          'child_id',
+          'child_type',
           'context',
           'email',
           'id',
+          'is_latest_revision',
           'name',
+          'revision',
+          'revisions',
           'selfLink',
           'slug',
           'status',
@@ -1324,7 +1345,7 @@
       var queryAPI = GGRC.Utils.QueryAPI;
       var modelName = options.model.shortName;
       var states = options.attr('selectStateList');
-      var statesFilter = GGRC.Utils.State.statusFilter(states, '');
+      var statesFilter = GGRC.Utils.State.statusFilter(states, '', modelName);
       var isStateQuery = statesFilter !== '';
       var additionalFilter = options.additional_filter ?
         [options.additional_filter, statesFilter] :
