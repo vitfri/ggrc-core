@@ -790,6 +790,7 @@
      * @return {Object} The object
      */
     function toObject(instance) {
+      var object;
       var model = CMS.Models[instance.child_type];
       var content = instance.revision.content;
       var type = model.root_collection;
@@ -802,7 +803,9 @@
       content.selfLink = content.snapshot.selfLink;
       content.type = instance.child_type;
       content.id = instance.id;
-      return new model(content);
+      object = new model(content);
+      model.removeFromCacheById(content.id);  /* removes snapshot object from cache */
+      return object;
     }
 
     /**

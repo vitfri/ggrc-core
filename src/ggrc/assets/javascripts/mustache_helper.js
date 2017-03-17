@@ -1041,40 +1041,6 @@ Mustache.registerHelper("unmap_or_delete", function (instance, mappings) {
     return "Unmap";
 });
 
-Mustache.registerHelper("with_direct_mappings_as",
-    function (var_name, parent_instance, instance, options) {
-  // Finds the mapping, if any, between `parent_object` and `instance`, then
-  // renders the block with those mappings available in the scope as `var_name`
-
-  parent_instance = Mustache.resolve(parent_instance);
-  instance = Mustache.resolve(instance);
-
-  if (!instance) {
-      instance = [];
-  } else if (typeof instance.length === "number") {
-      instance = can.map(instance, function (inst) {
-        return inst.instance ? inst.instance : inst;
-      });
-  } else if (instance.instance) {
-      instance = [instance.instance];
-  } else {
-      instance = [instance];
-  }
-
-  var frame = new can.Observe();
-  frame.attr(var_name, []);
-  GGRC.all_local_results(parent_instance).then(function (results) {
-    var instance_only = options.hash && options.hash.instances_only;
-    can.each(results, function (result) {
-      if (~can.inArray(result.instance, instance)) {
-        frame.attr(var_name).push(instance_only ? result.instance : result);
-      }
-    });
-  });
-
-  return options.fn(options.contexts.add(frame));
-});
-
 Mustache.registerHelper("has_mapped_objects", function (selected, instance, options) {
   selected = resolve_computed(selected);
   instance = resolve_computed(instance);
@@ -1709,26 +1675,30 @@ Mustache.registerHelper("global_count", function (model_type, options) {
   }
 });
 
-Mustache.registerHelper("is_dashboard", function (options) {
-  if (/dashboard/.test(window.location))
-    return options.fn(options.contexts);
-  else
-    return options.inverse(options.contexts);
-});
+  Mustache.registerHelper('is_dashboard', function (options) {
+    return /dashboard/.test(window.location) ?
+      options.fn(options.contexts) :
+      options.inverse(options.contexts);
+  });
 
-Mustache.registerHelper("is_allobjectview", function (options) {
-  if (/objectBrowser/.test(window.location))
-    return options.fn(options.contexts);
-  else
-    return options.inverse(options.contexts);
-});
+  Mustache.registerHelper('is_allobjectview', function (options) {
+    return /objectBrowser/.test(window.location) ?
+      options.fn(options.contexts) :
+      options.inverse(options.contexts);
+  });
 
-Mustache.registerHelper("is_dashboard_or_all", function (options) {
-  if (/dashboard/.test(window.location) || /objectBrowser/.test(window.location))
-    return options.fn(options.contexts);
-  else
-    return options.inverse(options.contexts);
-});
+  Mustache.registerHelper('is_dashboard_or_all', function (options) {
+    return (/dashboard/.test(window.location) ||
+    /objectBrowser/.test(window.location)) ?
+      options.fn(options.contexts) :
+      options.inverse(options.contexts);
+  });
+
+  Mustache.registerHelper('isMyAssessments', function (options) {
+    return GGRC.Utils.CurrentPage.isMyAssessments() ?
+      options.fn(options.contexts) :
+      options.inverse(options.contexts);
+  });
 
 Mustache.registerHelper("is_profile", function (parent_instance, options) {
   var instance;
@@ -2631,25 +2601,25 @@ Mustache.registerHelper("fadeout", function (delay, prop, options) {
       );
     });
 
-Mustache.registerHelper("is_overdue", function (_date, status, options) {
-  var resolvedDate = resolve_computed(_date);
-  var hashDueDate = resolve_computed(options.hash && options.hash.next_date);
-  var nextDueDate = moment(hashDueDate || resolvedDate);
-  var endDate = moment(resolvedDate);
-  var date = moment.min(nextDueDate, endDate);
-  var today = moment().startOf('day');
-  var startOfDate = moment(date).startOf('day');
-  var isBefore = date && today.diff(startOfDate, 'days') >= 0;
-  options = arguments.length === 2 ? arguments[1] : options;
-  status = arguments.length === 2 ? "" : resolve_computed(status);
-  // TODO: [Overdue] Move this logic to helper.
-  if (status !== 'Verified' && isBefore) {
-    return options.fn(options.contexts);
-  }
-  else {
-    return options.inverse(options.contexts);
-  }
-});
+  Mustache.registerHelper('is_overdue', function (_date, status, options) {
+    var resolvedDate = resolve_computed(_date);
+    var opts = arguments[arguments.length - 1];
+    var hashDueDate = resolve_computed(opts.hash && opts.hash.next_date);
+    var nextDueDate = moment(hashDueDate || resolvedDate);
+    var endDate = moment(resolvedDate);
+    var date = moment.min(nextDueDate, endDate);
+    var today = moment().startOf('day');
+    var startOfDate = moment(date).startOf('day');
+    var isBefore = date && today.diff(startOfDate, 'days') >= 0;
+    var result;
+    status = arguments.length === 2 ? '' : resolve_computed(status);
+    if (status !== 'Verified' && isBefore) {
+      result = opts.fn(opts.contexts);
+    } else {
+      result = opts.inverse(opts.contexts);
+    }
+    return result;
+  });
 
 Mustache.registerHelper("with_mappable_instances_as", function (name, list, options) {
   var ctx = new can.Observe()
