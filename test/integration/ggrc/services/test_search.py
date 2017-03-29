@@ -74,7 +74,7 @@ class TestResource(TestCase):
   def test_search_fail_with_terms_none(self):
     """Test search to fail with BadRequest (400 Error) when terms are None."""
     query = '/search?types={}&counts_only={}'.format("Control", False)
-    response = self.api.tc.get(query)
+    response = self.api.client.get(query)
     self.assert400(response)
     self.assertEqual(response.json['message'], 'Query parameter "q" '
                      'specifying search terms must be provided.')

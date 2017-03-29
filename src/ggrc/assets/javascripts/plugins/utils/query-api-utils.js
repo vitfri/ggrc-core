@@ -261,13 +261,47 @@
       });
     }
 
+    /**
+     * Build Count Params.
+     *
+     * @param {Array} types - Names of requested object
+     * @param {Object} relevant - Information about relevant object
+     * @return {Array} Array of QueryAPIRequests
+     */
+    function buildCountParams(types, relevant) {
+      var params;
+
+      if (!types || !Array.isArray(types)) {
+        return [];
+      }
+
+      params = types.map(function (objName) {
+        var param = {};
+
+        if (!objName) {
+          return {};
+        }
+
+        param.object_name = objName;
+        param.type = 'count';
+
+        if (relevant) {
+          param.filters = _makeRelevantFilter(relevant, objName);
+        }
+        return param;
+      });
+
+      return params;
+    }
+
     return {
       buildParam: buildParam,
       buildParams: buildParams,
       buildRelevantIdsQuery: buildRelevantIdsQuery,
       makeRequest: makeRequest,
       makeExpression: makeExpression,
-      batchRequests: batchRequests
+      batchRequests: batchRequests,
+      buildCountParams: buildCountParams
     };
   })();
 })(jQuery, window.GGRC);
