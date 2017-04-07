@@ -239,6 +239,7 @@ dashboard-js-files:
   - components/add-object-button/add-object-button.js
   - components/effective-dates/effective-dates.js
   - components/snapshotter/revisions-comparer.js
+  - components/snapshotter/open-original-link.js
   - components/snapshotter/scope-update.js
   - components/info-pin-buttons/info-pin-buttons.js
   - components/questions-link/questions-link.js
@@ -374,6 +375,8 @@ dashboard-js-template-files:
   - contracts/modal_content.mustache
   - controls/categories_tree.mustache
   - controls/info.mustache
+  - controls/contacts.mustache
+  - controls/urls.mustache
   - controls/list_popover.mustache
   - controls/modal_content.mustache
   - controls/object_list.mustache
@@ -561,12 +564,15 @@ dashboard-js-template-files:
   - mapper/relevant_filter.mustache
   - quick_form/confirm_buttons.mustache
   - snapshots/dropdown_menu.mustache
+  - snapshots/open_original_link.mustache
   - snapshots/tree_add_item.mustache
 
 dashboard-css-files:
   - dashboard.css
   - wysihtml5/bootstrap-wysihtml5-0.0.2.css
   - jquery/jquery-ui.css
+  - quill/dist/quill.core.css
+  - quill/dist/quill.snow.css
 
 dashboard-js-spec-files:
   - spec_setup.js
