@@ -14,6 +14,10 @@ select {
   padding: 0;
 }
 
+a {
+  color: $link;
+}
+
 .bottom-space {
   padding-bottom: 25px;
   p {
@@ -76,13 +80,8 @@ select {
     margin: 5px 10px 0 4px !important;
   }
   .openclose__empty &,
-  .openclose__snapshot &,
-  .openclose__empty__snapshot &{
-    margin: 16px 10px 0 10px;
-  }
   .inner-tree &,
-  .inner-tree .openclose__empty &,
-  .inner-tree .openclose__empty__snapshot &{
+  .inner-tree .openclose__empty {
     margin: 10px 5px 0 10px;
   }
 
@@ -134,7 +133,7 @@ select {
 }
 .btn {
   @include btn-size();
-  font-weight: bold;
+  font-weight: normal;
   border: none;
   @include box-shadow(none);
   text-shadow: none;
@@ -702,7 +701,7 @@ p {
     display: inline-block;
     text-transform: none;
     color: $white;
-    font-weight: bold;
+    font-weight: normal;
   }
   .close-dropdown {
     padding: 0;
@@ -774,17 +773,17 @@ p {
 }
 .state-value-dot {
   position: relative;
-  padding-left: 10px;
+  padding-left: 12px;
 
   &:before {
     content: '';
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     display: inline-block;
     left: 0;
     top: 50%;
-    margin-top: -3px;
+    margin-top: -5px;
     border-radius: 50%;
   }
 

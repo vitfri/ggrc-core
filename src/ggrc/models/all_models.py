@@ -50,7 +50,6 @@ from ggrc.models.program import Program
 from ggrc.models.project import Project
 from ggrc.models.relationship import Relationship
 from ggrc.models.relationship import RelationshipAttr
-from ggrc.models.request import Request
 from ggrc.models.revision import Revision
 from ggrc.models.section import Section
 from ggrc.models.snapshot import Snapshot
@@ -98,7 +97,6 @@ all_models = [
     Project,
     Relationship,
     RelationshipAttr,
-    Request,
     Section,
     Clause,
     SystemOrProcess,
@@ -128,7 +126,7 @@ def register_model(model):
   """
   current_module = sys.modules[__name__]
   setattr(current_module, model.__name__, model)
-  model._inflector
+  inflector.register_inflections(model._inflector)
   all_models.append(model)
   __all__.append(model.__name__)
 

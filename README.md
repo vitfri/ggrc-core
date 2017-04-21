@@ -163,6 +163,12 @@ This will run the tests on each file update.
 cd test/unit; sniffer
 ```
 
+You can drop into ipdb debugger on failures by running:
+
+```sh
+run_pytests --ipdb-failures
+```
+
 #### For Selenium tests:
 
 On the host machine in the root of the repository run:
@@ -449,7 +455,7 @@ build_assets
 
 # Copyright Notice
 
-Copyright (C) 2013-2016 Google Inc., authors, and contributors (see the AUTHORS
+Copyright (C) 2013-2017 Google Inc., authors, and contributors (see the AUTHORS
 file).
 Licensed under the [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 license (see the LICENSE file).

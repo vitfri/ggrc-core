@@ -7,6 +7,8 @@ import json
 import logging
 import os
 import tempfile
+import csv
+from StringIO import StringIO
 
 from sqlalchemy import exc
 from flask.ext.testing import TestCase as BaseTestCase
@@ -183,7 +185,8 @@ class TestCase(BaseTestCase, object):
         object_type = data.pop("object_type")
         keys = data.keys()
         tmp.write('{0},{1}\n'.format(object_type, ','.join(keys)))
-        tmp.write(',{0}\n'.format(','.join(str(data[k]) for k in keys)))
+        line = ','.join(u"\"{}\"".format(data[k]) for k in keys)
+        tmp.write(',{0}\n'.format(line))
         tmp.seek(0)
       return cls._import_file(os.path.basename(tmp.name), dry_run, person)
 
@@ -236,12 +239,12 @@ class TestCase(BaseTestCase, object):
     """
     resp = self.export_csv(data)
     self.assert200(resp)
-    rows = resp.data.split("\r\n")
+    rows = csv.reader(StringIO(resp.data))
+
     object_type = None
     keys = []
     results = defaultdict(list)
-    for row in rows:
-      columns = row.split(',')
+    for columns in rows:
       if not any(columns):
         continue
       if columns[0] == "Object type":
@@ -253,11 +256,11 @@ class TestCase(BaseTestCase, object):
         keys = columns[1:]
         object_type = columns[0]
         continue
+      columns = [unicode(val) for val in columns]
       results[object_type].append(dict(zip(keys, columns[1:])))
     return results
 
-  # pylint: disable=invalid-name
-  def assertSlugs(self, field, value, slugs):
+  def assert_slugs(self, field, value, slugs):
     """Assert slugs for selected search"""
     assert self.model
     search_request = [{
@@ -289,8 +292,8 @@ class TestCase(BaseTestCase, object):
     for f_string in formats:
       yield f_string.format(**kwargs)
 
-  # pylint: disable=invalid-name
-  def assertFilterByDatetime(self, alias, datetime_value, slugs, formats=None):
+  def assert_filter_by_datetime(self, alias, datetime_value, slugs,
+                                formats=None):
     """Assert slugs for each date format ent datetime"""
     for date_string in self.generate_date_strings(datetime_value, formats):
-      self.assertSlugs(alias, date_string, slugs)
+      self.assert_slugs(alias, date_string, slugs)

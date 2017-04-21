@@ -26,12 +26,6 @@
     h.push(hook);
   };
 
-  GGRC.current_url_compute = can.compute(function() {
-    var path = window.location.pathname,
-      fragment = window.location.hash;
-    return window.encodeURIComponent(path + fragment);
-  });
-
   var onbeforeunload = function (evnt) {
       evnt = evnt || window.event;
       var message = 'There are operations in progress. Are you sure you want to leave the page?';
@@ -159,8 +153,9 @@
       '403': 'You don\'t have the permission to access the ' +
       'requested resource. It is either read-protected or not ' +
       'readable by the server.',
-      '409': 'There was a conflict in the object you were trying to update. ' +
-      'The version on the server is newer.',
+      '409': 'There was a conflict while saving.' +
+      ' Your changes have not yet been saved.' +
+      ' Please refresh the page and try saving again',
       '412': 'One of the form fields isn\'t right. ' +
       'Check the form for any highlighted fields.'
     };

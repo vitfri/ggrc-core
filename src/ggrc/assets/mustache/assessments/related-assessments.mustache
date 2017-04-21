@@ -8,7 +8,7 @@ Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
             <tree-pagination {(paging)}="paging"></tree-pagination>
             {{#is_allowed 'update' baseInstance context='for'}}
                 <div class="grid-data-toolbar-control">
-                    <button class="btn btn-small btn-full btn-success" ($click)="reuseSelected" {{^hasSelected}}disabled{{/hasSelected}}>Reuse</button>
+                    <button class="btn btn-small btn-full btn-green" ($click)="reuseSelected" {{^hasSelected}}disabled{{/hasSelected}}>Reuse</button>
                 </div>
             {{/is_allowed}}
         </div>
@@ -73,7 +73,7 @@ Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
                     <div class="flex-size-3">
                         <mapped-objects
                                 {parent-instance}="instance"
-                                mapping="{{instance.class.info_pane_options.evidence.mapping}}">
+                                mapping="all_documents">
                             <reusable-objects-item {instance}="instance"
                                                    {is-saving}="isSaving"
                                                    {base-instance}="baseInstance"
@@ -87,7 +87,7 @@ Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
                     <div class="flex-size-3">
                         <mapped-objects
                                 {parent-instance}="instance"
-                                mapping="{{instance.class.info_pane_options.urls.mapping}}">
+                                mapping="all_urls">
                             <reusable-objects-item {instance}="instance"
                                                    {is-saving}="isSaving"
                                                    {base-instance}="baseInstance"
